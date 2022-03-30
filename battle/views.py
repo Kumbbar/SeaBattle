@@ -17,23 +17,6 @@ def index(request):
         return render(request, 'battle/index.html', {'games': games, 'user_games': user_games})
 
 
-# def ajax(request):
-#     if request.POST:
-#         user = request.user
-#         gamer = Gamer.objects.get(user_id=user.id)
-#         gamer.in_lobby = 1
-#         gamer.save()
-#
-#         try:
-#             Game.objects.get(player1=gamer)
-#         except battle.models.Game.DoesNotExist:
-#             game = Game()
-#             game.player1 = gamer
-#             game.room_name = user.username
-#             game.save()
-#             return HttpResponse('ok')
-
-
 @login_required()
 def create_game(request):
     """Create user game if he haven't game room"""
@@ -85,14 +68,17 @@ def game_user2(request):
     return render(request, 'battle/game_user2.html')
 
 
-def play_game_user1(request):
+def load_battlefield1(request):
+    """Get game object and return battlefield_player1 to JS"""
+    user = request.user
+    gamer = Gamer.objects.get(user_id=user.id)
+    game = Game.objects.get(player1=gamer)
     if request.method == "GET":
-        pass
-    else:
-        pass
+        battlefield1 = game.battlefield_player1
+        return HttpResponse(battlefield1)
 
 
-def play_game_user2(request):
+def load_battlefield2(request):
     if request.method == "GET":
         pass
     else:
