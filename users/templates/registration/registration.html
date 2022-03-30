@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+  <title>Registration</title>
+</head>
+<body>
+  <div class="login-img">
+    <a href="{% url 'users:login' %}"><img src="{% static 'img/arrow-left.svg' %}" alt="back"></a>
+    <form action="{% url 'users:register' %}" method="post">
+      <div class="login-form">
+        <div class="login-fields">
+          <h2>Registration</h2>
+          {{ form.username }}
+          <br>
+          {{ form.password1 }}
+          <br>
+          {{ form.password2 }}
+          <br>
+          {% csrf_token %}
+          <button name="submit">Register</button>
+          <input name="next" type="hidden" value="{% url 'battle:index' %}">
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+{#  <script src="{% static 'js/jquery-3.6.0.js'%}"></script>#}
+  <script async src="{% static 'js/index.js' %}"></script>
+  <script>
+    $(document).ready(function () {
+
+    })
+  </script>
+</head>
+<body>
+  <header>
+    <div class="profile">
+
+    </div>
+    <a href="{% url 'users:logout_user' %}"><button class="logout-button">Log out</button></a>
+
+
+
+  </header>
+  <div class="best-games">
+
+    <div class="list-best-games">
+      <h2>Best Games</h2>
+
+
+    </div>
+
+  </div>
+  <div class="container">
+    <div class="games">
+      {% for game in games %}
+        <div class="game">
+          <div class="username">
+            {{ game.player1.user }}
+          </div>
+          {% if  game.player1.user != request.user %}
+            <div class="join">
+                <a href="{% url 'battle:join_game' game_room_name %}">Join</a>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      {% if user_games < 1 %}
+        <a href="{% url 'battle:create_game' %}">
+        <div class="create-game">
+          <h3>Create game</h3>
+        </div>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
