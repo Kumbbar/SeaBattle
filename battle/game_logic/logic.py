@@ -23,6 +23,7 @@ def back2(request):
 
     game = Game.objects.get(player2=gamer)
     game.player2 = None
+    game.save()
     return redirect('battle:index')
 
 

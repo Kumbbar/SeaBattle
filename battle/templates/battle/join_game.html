@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Preparing for battle</title>
-  <link rel="stylesheet" href="{% static 'css/create_game.css' %}">
+  <link rel="stylesheet" href="{% static 'css/join_game.css' %}">
 </head>
 <body>
   <H2>Arrange your ships</H2>
@@ -75,10 +75,19 @@
     <div class="cell"></div>
 
   </div>
+  <div class="ships">
+    <div id="ship4"></div>
+    <div id="ship3"></div>
+    <div id="ship21"></div>
+    <div id="ship22"></div>
+    <div id="ship11"></div>
+    <div id="ship12"></div>
+    <div id="ship13"></div>
+  </div>
   <div class="navigation">
-    <a href="" class="bacK">Back</a>
+    <a class="back" href="{% url 'battle:back_player2' %}">Back</a>
     <a href="" class="reset">Reset</a>
-    <a href="" class="play">Play</a>
+    <a href="#" class="play">Play</a>
   </div>
 </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

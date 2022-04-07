@@ -14,7 +14,7 @@ def index(request):
     games = Game.objects.filter(player2=None).order_by('user_id')
     user_games = len(Game.objects.all().filter(player1=gamer))
     if request.method == 'GET':
-        return render(request, 'battle/index.html', {'games': games, 'user_games': user_games})
+        return render(request, 'battle/index.html', {'games': games, 'user_games': user_games, 'gamer': gamer})
 
 
 @login_required()
@@ -22,10 +22,7 @@ def create_game(request):
     """Create user game if he haven't game room"""
     if request.method == 'GET':
         user = request.user
-        gamer = Gamer.objects.get(user_id=user.id)
-        gamer.in_lobby = 1
-        gamer.save()
-
+        gamer = prepare_game(request)
         try:
             Game.objects.get(player1=gamer)
         except battle.models.Game.DoesNotExist:
@@ -65,20 +62,25 @@ def game_user2(request):
         battlefield = request.POST.get('battlefield')
         game.battlefield_player2 = battlefield
         game.save()
-    return render(request, 'battle/game_user2.html')
+    return render(request, 'battle/game_user2.html', {'game': game})
 
 
-def load_battlefield1(request):
-    """Get game object and return battlefield_player1 to JS"""
+def interact_battlefield1(request):
+    """
+    Get game object and return battlefield_player1 to JS
+
+    """
     user = request.user
     gamer = Gamer.objects.get(user_id=user.id)
     game = Game.objects.get(player1=gamer)
     if request.method == "GET":
         battlefield1 = game.battlefield_player1
         return HttpResponse(battlefield1)
+    else:
+        pass
 
 
-def load_battlefield2(request):
+def interact_battlefield2 (request):
     if request.method == "GET":
         pass
     else:

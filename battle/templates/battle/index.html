@@ -27,9 +27,7 @@
   <div class="best-games">
 
     <div class="list-best-games">
-      <h2>Best Games</h2>
-
-
+      <h2>Hello, {{ gamer.user.username }}</h2>
     </div>
 
   </div>
@@ -42,7 +40,7 @@
           </div>
           {% if  game.player1.user != request.user %}
             <div class="join">
-                <a href="{% url 'battle:join_game' game_room_name %}">Join</a>
+                <a href="{% url 'battle:join_game' game.room_name %}">Join</a>
             </div>
           {% endif %}
         </div>
