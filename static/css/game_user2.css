@@ -1,0 +1,69 @@
+.cell1{
+
+    width: 30px;
+    height: 30px;
+    background-color: #e0e0e0;
+    border: blue;
+    display: inline-block;
+    place-items: center;
+}
+
+#battlefield2{
+    padding: 5px;
+    margin-left: 6vw;
+    width: 270px;
+    height: 270px;
+    background-color: black;
+    display: inline-block;
+
+
+}
+.first-player{
+    margin-left: 6vw;
+    width: 270px;
+    display: inline-block;
+}
+.second-player {
+    float: right;
+    margin-left: 6vw;
+    width: 270px;
+    display: inline-block;
+    margin-right: 6vw;
+}
+
+
+.cell2{
+
+    width: 30px;
+    height: 30px;
+    background-color: #e0e0e0;
+    border: blue;
+    display: inline-block;
+    place-items: center;
+}
+
+#battlefield1{
+    float: right;
+    padding: 5px;
+    margin-right: 6vw;
+    width: 270px;
+    height: 270px;
+    background-color: black;
+
+
+}
+
+h2{
+    text-align: center;
+    font-family: "Century Gothic", serif;
+
+}
+
+
+a{
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    font-family: "Century Gothic", serif;
+
+}

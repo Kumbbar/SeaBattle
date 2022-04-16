@@ -9,7 +9,14 @@
 <body>
   <div class="usernames">
     <H2 class="first-player">{{ game.player1.user }}</H2>
-    <H2 class="second-player">{{ game.player2.user }}</H2>
+    <H2 class="second-player">
+      {% if game.player2 == None %}
+        Waiting for the enemy
+      {% else %}
+        {{ game.player2.user }}
+      {% endif %}
+
+    </H2>
   </div>
   <div id="battlefield1">
     <div class="cell1"></div>

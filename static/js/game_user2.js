@@ -1,9 +1,6 @@
-// window.onload = function(){
-//
-// }
+
 area1 = Array.from(document.getElementById('battlefield1').children)
 area2 = Array.from(document.getElementById('battlefield2').children)
-
 let user1_move = true
 
 let battlefield_user1 = [
@@ -54,6 +51,7 @@ $.ajax({
     },
 })
 
+
 for(let i = 0; i < 64; i++)
 {
     if(battlefield_user1[i] === 1)  $(area1)[i].style.backgroundColor = '#000';
@@ -67,28 +65,6 @@ for(let i = 0; i < 64; i++)
     else if(battlefield_user2[i] === 0);
 
 }
-
-setInterval(function () {
-    if(user1_move === false)
-    {
-        $.ajax({
-            url: 'interact_battlefield1/',
-            type: 'GET',
-            async: false,
-            success: function (data) {
-                let battlefield1_check = data.split(' ')
-                battlefield1_check = battlefield1_check.map(function (item) {
-                    return parseInt(item);
-                })
-                if(battlefield_user1 !== battlefield1_check) user1_move = true;
-
-            }
-        })
-
-    }
-    
-},2000)
-
 
 
 

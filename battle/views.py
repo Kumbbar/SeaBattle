@@ -68,11 +68,14 @@ def game_user2(request):
 def interact_battlefield1(request):
     """
     Get game object and return battlefield_player1 to JS
-
     """
     user = request.user
     gamer = Gamer.objects.get(user_id=user.id)
-    game = Game.objects.get(player1=gamer)
+    try:
+        game = Game.objects.get(player1=gamer)
+    except battle.models.Game.DoesNotExist:
+        game = Game.objects.get(player2=gamer)
+
     if request.method == "GET":
         battlefield1 = game.battlefield_player1
         return HttpResponse(battlefield1)
@@ -80,11 +83,23 @@ def interact_battlefield1(request):
         pass
 
 
-def interact_battlefield2 (request):
+def interact_battlefield2(request):
+    """
+    Get game object and return battlefield_player2 to JS
+    """
+    user = request.user
+    gamer = Gamer.objects.get(user_id=user.id)
+    try:
+        game = Game.objects.get(player2=gamer)
+    except battle.models.Game.DoesNotExist:
+        game = Game.objects.get(player1=gamer)
+
     if request.method == "GET":
-        pass
+        battlefield2 = game.battlefield_player2
+        return HttpResponse(battlefield2)
     else:
         pass
+
 
 
 def back_player1(request):
