@@ -1,0 +1,115 @@
+.cell{
+
+    width: 30px;
+    height: 30px;
+    background-color: #e0e0e0;
+    border: blue;
+    display: inline-block;
+    place-items: center;
+}
+
+#battlefield {
+    padding: 5px;
+    margin: 0 auto;
+    width: 270px;
+    height: 270px;
+    background-color: black;
+}
+.reset{
+    text-align: center;
+}
+h2{
+    text-align: center;
+    font-family: "Century Gothic", serif;
+
+}
+
+.ships{
+    width: 270px;
+    height: 70px;
+    margin: 20px auto 0 auto;
+}
+#ship4{
+    margin-right: 32px;
+    width: 133px;
+    height: 30px;
+    background-color: black;
+    display: inline-block;
+}
+
+#ship3{
+    display: inline-block;
+    width: 101px;
+    height: 30px;
+    background-color: black;
+}
+
+#ship21{
+    display: inline-block;
+    width: 65px;
+    height: 30px;
+    background-color: black;
+}
+
+#ship22{
+    display: inline-block;
+    width: 64px;
+    height: 30px;
+    background-color: black;
+}
+#ship11{
+    margin-left: 32px;
+    display: inline-block;
+    width: 31px;
+    height: 30px;
+    background-color: black;
+}
+#ship12{
+    display: inline-block;
+    width: 31px;
+    height: 30px;
+    background-color: black;
+}
+#ship13{
+    display: inline-block;
+    width: 31px;
+    height: 30px;
+    background-color: black;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    font-family: "Century Gothic", serif;
+
+}
+
+.navigation{
+
+    text-align: center;
+    width: 20vw;
+    margin: 0 auto;
+    margin-top: 10px;
+    height: 20vh;
+}
+
+
+.back{
+    float: left;
+    display: inline-block;
+}
+
+.play{
+    display: inline-block;
+    float: right;
+}
+
+.cell-black{
+    width: 30px;
+    height: 30px;
+    background-color: #101010;
+    border: blue;
+
+    place-items: center;
+}
