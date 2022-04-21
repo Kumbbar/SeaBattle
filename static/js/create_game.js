@@ -40,6 +40,8 @@ function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 
+
+
 reset.addEventListener('click', function (e) {
     window.location.reload();
 })
@@ -66,7 +68,8 @@ play.addEventListener('click', function (e) {
     })
 })
 
-area.addEventListener("click", function (e) {
+
+area.addEventListener("click", function (e){
     var index = parseInt($(e.target).index());
     console.log(index)
     if (battlefield_ready[index] === 1) return 0;

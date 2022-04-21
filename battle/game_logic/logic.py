@@ -54,3 +54,9 @@ def prepare_game(request):
     gamer.in_lobby = 1
     gamer.save()
     return gamer
+
+
+def get_gamer(request):
+    user = request.user
+    gamer = Gamer.objects.get(user_id=user.id)
+    return gamer

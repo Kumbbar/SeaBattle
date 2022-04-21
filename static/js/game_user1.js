@@ -1,10 +1,33 @@
-// window.onload = function(){
-//
-// }
-area1 = Array.from(document.getElementById('battlefield1').children)
-area2 = Array.from(document.getElementById('battlefield2').children)
-
+let area1 = Array.from(document.getElementById('battlefield1').children)
+let area2 = Array.from(document.getElementById('battlefield2').children)
+let area2_draw = document.getElementById('battlefield2')
 let user1_move = true
+
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+
 
 let battlefield_user1 = [
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -30,6 +53,7 @@ let battlefield_user2 = [
 
 ]
 
+// Get my battlefield
 $.ajax({
     url: '../interact_battlefield1/',
     type: 'GET',
@@ -42,6 +66,8 @@ $.ajax({
     },
 })
 
+
+// Get enemy battlefield
 $.ajax({
     url: '../interact_battlefield2/',
     type: 'GET',
@@ -54,6 +80,7 @@ $.ajax({
     },
 })
 
+// draw my battlefield
 for(let i = 0; i < 64; i++)
 {
     if(battlefield_user1[i] === 1)  $(area1)[i].style.backgroundColor = '#000';
@@ -61,6 +88,7 @@ for(let i = 0; i < 64; i++)
 
 }
 
+// draw enemy battlefield
 for(let i = 0; i < 64; i++)
 {
     if(battlefield_user2[i] === 1)  $(area2)[i].style.backgroundColor = '#000';
@@ -68,11 +96,42 @@ for(let i = 0; i < 64; i++)
 
 }
 
+area2_draw.addEventListener("click", function (e) {
+    if(user1_move){
+        let index = parseInt($(e.target).index());
+        battlefield_user2[$(e.target).index()] = 1;
+        e.target.style.backgroundColor = '#000';
+        user1_move = false
+        $.ajax({
+            beforeSend: function (xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                },
+
+            type: "POST",
+            url: '../interact_battlefield2/',
+            data: {
+                'battlefield': battlefield_user2.join(" ")
+            },
+            cache: false,
+
+
+
+        })
+        return 0
+    }
+
+})
+
+
+// wait for enemy move and draw after
+
 setInterval(function () {
-    if(user1_move === false)
+    if(!user1_move)
     {
         $.ajax({
-            url: 'interact_battlefield1/',
+            url: '../interact_battlefield1/',
             type: 'GET',
             async: false,
             success: function (data) {
@@ -80,7 +139,18 @@ setInterval(function () {
                 battlefield1_check = battlefield1_check.map(function (item) {
                     return parseInt(item);
                 })
-                if(battlefield_user1 !== battlefield1_check) user1_move = true;
+                if(battlefield_user1.toString() !== battlefield1_check.toString()) {
+
+
+                    battlefield_user1 = battlefield1_check
+                    for(let i = 0; i < 64; i++)
+                    {
+                        if(battlefield_user1[i] === 1)  $(area1)[i].style.backgroundColor = '#000';
+                        else if(battlefield_user1[i] === 0);
+
+                    }
+                    user1_move = true;
+                }
 
             }
         })

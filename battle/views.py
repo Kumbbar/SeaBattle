@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .game_logic.logic import back1, back2, start_battle_user, prepare_game
+from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer
 import battle
 from .models import Gamer, Game
 from django.contrib.auth.decorators import login_required
@@ -69,8 +69,7 @@ def interact_battlefield1(request):
     """
     Get game object and return battlefield_player1 to JS
     """
-    user = request.user
-    gamer = Gamer.objects.get(user_id=user.id)
+    gamer = get_gamer(request)
     try:
         game = Game.objects.get(player1=gamer)
     except battle.models.Game.DoesNotExist:
@@ -80,15 +79,17 @@ def interact_battlefield1(request):
         battlefield1 = game.battlefield_player1
         return HttpResponse(battlefield1)
     else:
-        pass
+        battlefield = request.POST.get('battlefield')
+        game.battlefield_player1 = battlefield
+        game.save()
+        return HttpResponse("Success")
 
 
 def interact_battlefield2(request):
     """
     Get game object and return battlefield_player2 to JS
     """
-    user = request.user
-    gamer = Gamer.objects.get(user_id=user.id)
+    gamer = get_gamer(request)
     try:
         game = Game.objects.get(player2=gamer)
     except battle.models.Game.DoesNotExist:
@@ -98,8 +99,10 @@ def interact_battlefield2(request):
         battlefield2 = game.battlefield_player2
         return HttpResponse(battlefield2)
     else:
-        pass
-
+        battlefield = request.POST.get('battlefield')
+        game.battlefield_player2 = battlefield
+        game.save()
+        return HttpResponse("Success")
 
 
 def back_player1(request):

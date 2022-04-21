@@ -1,3 +1,5 @@
+
+
 var area = document.getElementById('battlefield');
 var boxes = document.getElementsByClassName('cell');
 var box = document.querySelectorAll('.cell');
