@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
-from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer
+from django.shortcuts import render
+from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer, delete_game
+from .game_logic.decorators import not_in_game, lose_redirect_player1
 import battle
 from .models import Gamer, Game
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse
-from django.contrib.auth.models import User
 
 
-@login_required()
+@login_required
+@not_in_game
 def index(request):
     """Create main menu and delete button 'Create game' if user have a game"""
     gamer = Gamer.objects.get(user_id=request.user.id)
@@ -17,7 +18,7 @@ def index(request):
         return render(request, 'battle/index.html', {'games': games, 'user_games': user_games, 'gamer': gamer})
 
 
-@login_required()
+@login_required
 def create_game(request):
     """Create user game if he haven't game room"""
     if request.method == 'GET':
@@ -103,6 +104,30 @@ def interact_battlefield2(request):
         game.battlefield_player2 = battlefield
         game.save()
         return HttpResponse("Success")
+
+
+def player_win(request):
+    """add win to user and redirect to win page"""
+    gamer = get_gamer(request)
+    gamer.games += 1
+    gamer.wins += 1
+    gamer.save()
+    return render(request, 'battle/win_page.html', {'gamer': gamer})
+
+
+def player_lose(request):
+    """delete game and redirect to lose page"""
+    gamer = get_gamer(request)
+    delete_game(request, gamer)
+    # MAYBE ERROR
+    # try:
+    #     game = Game.objects.get(player1=gamer)
+    # except battle.models.Game.DoesNotExist:
+    #     game = Game.objects.get(player2=gamer)
+    # game.delete()
+    gamer.games += 1
+    gamer.save()
+    return render(request, 'battle/lose_page.html', {'gamer': gamer})
 
 
 def back_player1(request):

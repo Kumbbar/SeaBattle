@@ -35,7 +35,6 @@ button {
     background-image: url("../img/login_gradient.jfif");
     background-attachment: fixed;
     border-radius: 15px;
-
 }
 form {
     display: grid;

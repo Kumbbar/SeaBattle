@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'css/win.css' %}">
+  <title>You win</title>
+</head>
+<body>
+  <div class="Main">
+    <h1>You win</h1>
+    <h2><a  class="main-page" href="{% url 'battle:index' %}">Back to home page</a> -
+      <a class="logout" href="{% url 'users:logout_user' %}">Log out</a></h2>
+  </div>
+</body>
+</html>

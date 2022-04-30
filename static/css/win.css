@@ -1,0 +1,17 @@
+h1{
+    text-align: center;
+}
+
+.main-page{
+    text-align: left;
+}
+.logout{
+    text-align: right;
+    display: inline;
+}
+
+.Main{
+    width: 20vh;
+    margin-top: 30vh;
+    text-align: center;
+}

@@ -1,0 +1,23 @@
+.Main h1{
+    text-align: center;
+    padding-top: 30vh;
+}
+
+body{
+    display: grid;
+    place-items: center;
+}
+
+.main-page{
+    text-align: left;
+}
+.logout{
+    text-align: right;
+    display: inline;
+}
+
+.Main{
+    width: 30vw;
+    margin-top: 30vh;
+    text-align: center;
+}

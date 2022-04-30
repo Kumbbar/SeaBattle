@@ -30,11 +30,10 @@ def back2(request):
 def delete_game(request, gamer):
     """Delete gamer room, gamer = Gamer.objects.get(user_id=user.id)"""
     try:
-
         game = Game.objects.get(player1=gamer)
-        game.delete()
     except battle.models.Game.DoesNotExist:
-        pass
+        game = Game.objects.get(player2=gamer)
+    game.delete()
 
 
 def start_battle_user(request):
@@ -60,3 +59,6 @@ def get_gamer(request):
     user = request.user
     gamer = Gamer.objects.get(user_id=user.id)
     return gamer
+
+
+

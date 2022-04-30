@@ -1,7 +1,7 @@
 
 let area1 = Array.from(document.getElementById('battlefield1').children)
 let area2 = Array.from(document.getElementById('battlefield2').children)
-let area2_draw = document.getElementById('battlefield2')
+let area1_draw = document.getElementById('battlefield1')
 let user2_move = false
 
 
@@ -79,23 +79,33 @@ $.ajax({
 
 for(let i = 0; i < 64; i++)
 {
-    if(battlefield_user1[i] === 1)  $(area1)[i].style.backgroundColor = '#000';
-    else if(battlefield_user1[i] === 0);
+    if(battlefield_user1[i] === 2)  $(area1)[i].style.backgroundColor = 'rgb(255,38,38)';
+    else if(battlefield_user1[i] === 3) $(area1)[i].style.backgroundColor = 'rgb(160, 160, 160)';
 
 }
 
 for(let i = 0; i < 64; i++)
 {
     if(battlefield_user2[i] === 1)  $(area2)[i].style.backgroundColor = '#000';
-    else if(battlefield_user2[i] === 0);
+    else if(battlefield_user2[i] === 2) $(area2)[i].style.backgroundColor = 'rgb(255,38,38)';
+    else if(battlefield_user2[i] === 3) $(area2)[i].style.backgroundColor = 'rgb(160, 160, 160)';
 
 }
 
-area2_draw.addEventListener("click", function (e) {
+area1_draw.addEventListener("click", function (e) {
     if(user2_move){
         let index = parseInt($(e.target).index());
-        battlefield_user1[$(e.target).index()] = 1;
-        e.target.style.backgroundColor = '#000';
+        if(battlefield_user1[$(e.target).index()] === 1)
+        {
+            e.target.style.backgroundColor = 'rgb(255,38,38)';
+            battlefield_user1[$(e.target).index()] = 2;
+        }
+        else
+        {
+            e.target.style.backgroundColor = 'rgb(160, 160, 160)';
+            battlefield_user1[$(e.target).index()] = 3;
+        }
+        if(battlefield_user1.indexOf(1) ===  -1) window.location.href = '../win/';
         user2_move = false
         $.ajax({
             beforeSend: function (xhr, settings) {
@@ -138,11 +148,12 @@ setInterval(function () {
 
 
                     battlefield_user2 = battlefield2_check
+                    if(battlefield_user2.indexOf(1) ===  -1) window.location.href = '../lose/'
                     for(let i = 0; i < 64; i++)
                     {
                         if(battlefield_user2[i] === 1)  $(area2)[i].style.backgroundColor = '#000';
-                        else if(battlefield_user2[i] === 0);
-
+                        else if(battlefield_user2[i] === 2) $(area2)[i].style.backgroundColor = 'rgb(255,38,38)';
+                        else if(battlefield_user2[i] === 3) $(area2)[i].style.backgroundColor = 'rgb(160, 160, 160)';
                     }
                     user2_move = true;
                 }

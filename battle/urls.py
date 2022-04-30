@@ -16,6 +16,8 @@ urlpatterns = [
     path('game_user2/', views.game_user2, name='game_user2'),
 
     path('interact_battlefield1/', views.interact_battlefield1, name='interact_battlefield1'),
-    path('interact_battlefield2/', views.interact_battlefield2, name='interact_battlefield2')
+    path('interact_battlefield2/', views.interact_battlefield2, name='interact_battlefield2'),
 
+    path('win/', views.player_win, name='player_win'),
+    path('lose/', views.player_lose, name='player_lose')
 ]
