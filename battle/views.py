@@ -6,7 +6,7 @@ from .models import Gamer, Game
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse
 
-#222
+
 @login_required
 @not_in_game
 def index(request):
