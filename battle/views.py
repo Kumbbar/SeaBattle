@@ -19,6 +19,7 @@ def index(request):
 
 
 @login_required
+@not_in_game
 def create_game(request):
     """Create user game if he haven't game room"""
     if request.method == 'GET':
@@ -34,6 +35,8 @@ def create_game(request):
         return render(request, "battle/create_game.html")
 
 
+@login_required
+@not_in_game
 def join_game(request, room_name):
     """Add user to model player2"""
     if request.method == 'GET':
@@ -44,6 +47,7 @@ def join_game(request, room_name):
         return render(request, "battle/join_game.html")
 
 
+@login_required
 def game_user1(request):
     """Get user1 battlefield from ajax as str and add it to model battlefield 1 field"""
     gamer = start_battle_user(request)
@@ -55,6 +59,7 @@ def game_user1(request):
     return render(request, 'battle/game_user1.html', {'game': game})
 
 
+@login_required
 def game_user2(request):
     """Get user2 battlefield from ajax as str and add it to model battlefield 2 field"""
     gamer = start_battle_user(request)
@@ -119,12 +124,6 @@ def player_lose(request):
     """delete game and redirect to lose page"""
     gamer = get_gamer(request)
     delete_game(request, gamer)
-    # MAYBE ERROR
-    # try:
-    #     game = Game.objects.get(player1=gamer)
-    # except battle.models.Game.DoesNotExist:
-    #     game = Game.objects.get(player2=gamer)
-    # game.delete()
     gamer.games += 1
     gamer.save()
     return render(request, 'battle/lose_page.html', {'gamer': gamer})
