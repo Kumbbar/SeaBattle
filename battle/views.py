@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer, delete_game
 from .game_logic.decorators import not_in_game, lose_redirect_player1
 import battle
@@ -74,7 +74,10 @@ def interact_battlefield1(request):
     try:
         game = Game.objects.get(player1=gamer)
     except battle.models.Game.DoesNotExist:
-        game = Game.objects.get(player2=gamer)
+        try:
+            game = Game.objects.get(player2=gamer)
+        except battle.models.Game.DoesNotExist:
+            return redirect('battle:game_not_found')
 
     if request.method == "GET":
         battlefield1 = game.battlefield_player1
@@ -94,8 +97,10 @@ def interact_battlefield2(request):
     try:
         game = Game.objects.get(player2=gamer)
     except battle.models.Game.DoesNotExist:
-        game = Game.objects.get(player1=gamer)
-
+        try:
+            game = Game.objects.get(player1=gamer)
+        except battle.models.Game.DoesNotExist:
+            return redirect('battle:game_not_found')
     if request.method == "GET":
         battlefield2 = game.battlefield_player2
         return HttpResponse(battlefield2)
@@ -119,12 +124,6 @@ def player_lose(request):
     """delete game and redirect to lose page"""
     gamer = get_gamer(request)
     delete_game(request, gamer)
-    # MAYBE ERROR
-    # try:
-    #     game = Game.objects.get(player1=gamer)
-    # except battle.models.Game.DoesNotExist:
-    #     game = Game.objects.get(player2=gamer)
-    # game.delete()
     gamer.games += 1
     gamer.save()
     return render(request, 'battle/lose_page.html', {'gamer': gamer})
@@ -136,3 +135,31 @@ def back_player1(request):
 
 def back_player2(request):
     return back2(request)
+
+
+def game_not_found(request):
+    """Page if one of the players gave up"""
+    return render(request, 'battle/game_not_found.html')
+
+
+def surrender(request):
+    """Delete the game"""
+    gamer = get_gamer(request)
+    try:
+        game = Game.objects.get(player1=gamer)
+        player1 = True
+    except battle.models.Game.DoesNotExist:
+        game = Game.objects.get(player2=gamer)
+        player1 = False
+
+    if player1:
+        if game.player2 is None:
+            return redirect('battle:index')
+        else:
+            gamer.games += 1
+            return redirect('battle:index')
+    else:
+        gamer.games += 1
+    game.delete()
+    gamer.save()
+    return redirect('battle:index')

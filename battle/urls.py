@@ -19,5 +19,9 @@ urlpatterns = [
     path('interact_battlefield2/', views.interact_battlefield2, name='interact_battlefield2'),
 
     path('win/', views.player_win, name='player_win'),
-    path('lose/', views.player_lose, name='player_lose')
+    path('lose/', views.player_lose, name='player_lose'),
+
+    path('game_not_found/', views.game_not_found, name='game_not_found'),
+    path('surrender/', views.surrender, name='surrender'),
+
 ]

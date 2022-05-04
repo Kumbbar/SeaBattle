@@ -65,7 +65,12 @@ a{
     color: black;
     display: inline-block;
     font-family: "Century Gothic", serif;
+}
 
+a{
+    text-align: center;
+    width: 100%;
+    margin: 30px auto 30px auto;
 }
 
 
