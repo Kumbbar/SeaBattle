@@ -2,7 +2,7 @@ let area1 = Array.from(document.getElementById('battlefield1').children)
 let area2 = Array.from(document.getElementById('battlefield2').children)
 let area2_draw = document.getElementById('battlefield2')
 let user1_move = true
-
+let game_start = false
 
 function getCookie(name) {
     var cookieValue = null;
@@ -68,7 +68,9 @@ $.ajax({
 
 
 // Get enemy battlefield
-$.ajax({
+while (battlefield_user2.indexOf(1) ===  -1)
+{
+    $.ajax({
     url: '../interact_battlefield2/',
     type: 'GET',
     async: false,
@@ -78,8 +80,10 @@ $.ajax({
             return parseInt(item);
         })
     },
-})
-
+    })
+    setTimeout(() => {}, 3000);
+}
+game_start = true
 // draw my battlefield
 for(let i = 0; i < 64; i++)
 {
@@ -98,6 +102,7 @@ for(let i = 0; i < 64; i++)
 }
 
 area2_draw.addEventListener("click", function (e) {
+    if(!game_start) return;
     if(user1_move){
         let index = parseInt($(e.target).index());
         if(battlefield_user2[$(e.target).index()] === 1)

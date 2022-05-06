@@ -6,7 +6,7 @@ from .logic import get_gamer
 
 def not_in_game(func):
     """Close urls and redirect to battlefield if user in game"""
-    def wrapper(request):
+    def wrapper(request, *args):
         gamer = get_gamer(request)
         try:
             game = Game.objects.get(player1=gamer)
@@ -18,17 +18,27 @@ def not_in_game(func):
             return redirect('battle:game_user2')
         except battle.models.Game.DoesNotExist:
             pass
-        return func(request)
+        return func(request, *args)
     return wrapper
 
 
-def lose_redirect_player1(func):
+def game_not_found_redirect(func):
     def wrapper(request):
+        global game1_not_found, game2_not_found
+        game1_not_found, game2_not_found = False, False
         gamer = get_gamer(request)
         try:
             game = Game.objects.get(player1=gamer)
         except battle.models.Game.DoesNotExist:
-            return render(request, 'battle/lose_page.html', {'gamer': gamer})
-        return func(request)
+            game1_not_found = True
+        try:
+            game = Game.objects.get(player2=gamer)
+        except battle.models.Game.DoesNotExist:
+            game2_not_found = True
 
+        if game1_not_found and game2_not_found:
+            return redirect('battle:game_not_found')
+
+        return func(request)
     return wrapper
+
