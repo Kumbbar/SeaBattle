@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse
 
 
-@login_required
 @not_in_game
 def index(request):
     """Create main menu and delete button 'Create game' if user have a game"""
@@ -18,6 +17,7 @@ def index(request):
         return render(request, 'battle/index.html', {'games': games, 'user_games': user_games, 'gamer': gamer})
 
 
+# TEST KCPT
 @login_required
 @not_in_game
 def create_game(request):
