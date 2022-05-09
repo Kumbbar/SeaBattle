@@ -59,7 +59,8 @@ def game_user1(request):
     game = Game.objects.get(player1=gamer)
     if request.method == 'POST':
         battlefield = request.POST.get('battlefield')
-        game.battlefield_player1 = battlefield
+        if game.battlefield_player1 is not None:
+            game.battlefield_player1 = battlefield
         game.save()
     return render(request, 'battle/game_user1.html', {'game': game})
 
@@ -72,7 +73,8 @@ def game_user2(request):
     game = Game.objects.get(player2=gamer)
     if request.method == 'POST':
         battlefield = request.POST.get('battlefield')
-        game.battlefield_player2 = battlefield
+        if game.battlefield_player2 is not None:
+            game.battlefield_player2 = battlefield
         game.save()
     return render(request, 'battle/game_user2.html', {'game': game})
 
