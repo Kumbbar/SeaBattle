@@ -5,6 +5,8 @@ var reset = document.querySelector('.reset')
 var ships = 14;
 var play = document.querySelector('.play')
 
+if(localStorage.getItem('move1') === null)  localStorage.setItem('move1', 'true')
+localStorage.setItem('reloadPage', 'true')
 var battlefield_ready = [
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,

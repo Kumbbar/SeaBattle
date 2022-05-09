@@ -1,8 +1,11 @@
 let area1 = Array.from(document.getElementById('battlefield1').children)
 let area2 = Array.from(document.getElementById('battlefield2').children)
 let area2_draw = document.getElementById('battlefield2')
-let user1_move = true
 let game_start = false
+
+function reload() {
+  if(localStorage.getItem('reloadPage') === 'true') window.location.reload()
+}
 
 function getCookie(name) {
     var cookieValue = null;
@@ -67,24 +70,27 @@ $.ajax({
 })
 
 
-// Get enemy battlefield
-while (battlefield_user2.indexOf(1) ===  -1)
-{
-    $.ajax({
-    url: '../interact_battlefield2/',
-    type: 'GET',
-    async: false,
-    success: function (data) {
-        battlefield_user2 = data.split(' ');
-        battlefield_user2 = battlefield_user2.map(function (item) {
-            return parseInt(item);
-        })
-    },
+
+$.ajax({
+url: '../interact_battlefield2/',
+type: 'GET',
+async: false,
+success: function (data) {
+    battlefield_user2 = data.split(' ');
+    battlefield_user2 = battlefield_user2.map(function (item) {
+        return parseInt(item);
     })
-    setTimeout(() => {}, 3000);
-}
-game_start = true
-// draw my battlefield
+    if(battlefield_user2.indexOf(1) !== -1){
+        game_start = true
+        localStorage.setItem('reloadPage', 'false')
+    }
+},
+})
+
+setTimeout(() => reload(), 3000);
+
+
+
 for(let i = 0; i < 64; i++)
 {
     if(battlefield_user1[i] === 1)  $(area1)[i].style.backgroundColor = '#000';
@@ -103,7 +109,7 @@ for(let i = 0; i < 64; i++)
 
 area2_draw.addEventListener("click", function (e) {
     if(!game_start) return;
-    if(user1_move){
+    if(localStorage.getItem('move1') === 'true'){
         let index = parseInt($(e.target).index());
         if(battlefield_user2[$(e.target).index()] === 1)
         {
@@ -116,7 +122,7 @@ area2_draw.addEventListener("click", function (e) {
             battlefield_user2[$(e.target).index()] = 3;
         }
         if(battlefield_user2.indexOf(1) ===  -1) window.location.href = '../win/';
-        user1_move = false
+        localStorage.setItem('move1', 'false')
         $.ajax({
             beforeSend: function (xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -143,7 +149,7 @@ area2_draw.addEventListener("click", function (e) {
 // wait for enemy move and draw after
 
 setInterval(function () {
-    if(!user1_move)
+    if(localStorage.getItem('move1') === 'false')
     {
         $.ajax({
             url: '../interact_battlefield1/',
@@ -166,7 +172,7 @@ setInterval(function () {
                         else if(battlefield_user1[i] === 3) $(area1)[i].style.backgroundColor = 'rgb(160, 160, 160)';
 
                     }
-                    user1_move = true;
+                    localStorage.setItem('move1', 'true')
                 }
 
             }

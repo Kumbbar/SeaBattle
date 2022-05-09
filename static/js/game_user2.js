@@ -1,8 +1,6 @@
-
 let area1 = Array.from(document.getElementById('battlefield1').children)
 let area2 = Array.from(document.getElementById('battlefield2').children)
 let area1_draw = document.getElementById('battlefield1')
-let user2_move = false
 
 
 function getCookie(name) {
@@ -93,7 +91,7 @@ for(let i = 0; i < 64; i++)
 }
 
 area1_draw.addEventListener("click", function (e) {
-    if(user2_move){
+    if(localStorage.getItem('move2') === 'true'){
         let index = parseInt($(e.target).index());
         if(battlefield_user1[$(e.target).index()] === 1)
         {
@@ -106,7 +104,7 @@ area1_draw.addEventListener("click", function (e) {
             battlefield_user1[$(e.target).index()] = 3;
         }
         if(battlefield_user1.indexOf(1) ===  -1) window.location.href = '../win/';
-        user2_move = false
+        localStorage.setItem('move2', 'false')
         $.ajax({
             beforeSend: function (xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -133,7 +131,7 @@ area1_draw.addEventListener("click", function (e) {
 // wait for enemy move and draw after
 
 setInterval(function () {
-    if(!user2_move)
+    if(localStorage.getItem('move2') === 'false')
     {
         $.ajax({
             url: '../interact_battlefield2/',
@@ -155,7 +153,7 @@ setInterval(function () {
                         else if(battlefield_user2[i] === 2) $(area2)[i].style.backgroundColor = 'rgb(255,38,38)';
                         else if(battlefield_user2[i] === 3) $(area2)[i].style.backgroundColor = 'rgb(160, 160, 160)';
                     }
-                    user2_move = true;
+                    localStorage.setItem('move2', 'true')
                 }
 
             }

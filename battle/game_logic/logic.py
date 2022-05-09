@@ -5,23 +5,26 @@ from battle.models import Gamer, Game
 
 def back1(request):
     """back to main menu for first player and delete all model"""
-    user = request.user
-    gamer = Gamer.objects.get(user_id=user.id)
+    gamer = get_gamer(request)
     gamer.in_lobby = 0
     gamer.save()
 
+    game = Game.objects.get(player1=gamer)
+    if game.battlefield_player1 is not None:
+        return redirect('battle:game_user1')
     delete_game(request, gamer)
     return redirect('battle:index')
 
 
 def back2(request):
     """Back to main menu for second player and delete him from game model"""
-    user = request.user
-    gamer = Gamer.objects.get(user_id=user.id)
+    gamer = get_gamer(request)
     gamer.in_lobby = 0
     gamer.save()
 
     game = Game.objects.get(player2=gamer)
+    if game.battlefield_player2 is not None:
+        return redirect('battle:game_user2')
     game.player2 = None
     game.save()
     return redirect('battle:index')
