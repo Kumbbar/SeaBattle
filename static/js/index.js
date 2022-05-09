@@ -1,3 +1,6 @@
+localStorage.clear()
+
+/*
 async function elementUpdate(selector) {
     try {
         var html = await (await fetch(location.href)).text();
@@ -60,4 +63,4 @@ window.onload = function () {
         })
 
     })
-}
+}*/
