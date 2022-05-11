@@ -179,5 +179,19 @@ def surrender(request):
     gamer.save()
     return redirect('battle:index')
 
-def  check_user_game(request):
+
+def check_user_game(request):
+    """Check game for reset localstorage in index page JS"""
+    gamer = get_gamer(request)
+    try:
+        game = Game.objects.get(player1=gamer)
+        return HttpResponse("true")
+    except battle.models.Game.DoesNotExist:
+        try:
+            game = Game.objects.get(player2=gamer)
+            return HttpResponse("true")
+        except battle.models.Game.DoesNotExist:
+            return HttpResponse('false')
+
+
 

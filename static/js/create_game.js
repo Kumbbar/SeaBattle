@@ -50,7 +50,8 @@ reset.addEventListener('click', function (e) {
 })
 
 play.addEventListener('click', function (e) {
-    $.ajax({
+    if(ships === 0){
+        $.ajax({
         beforeSend: function (xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
@@ -69,6 +70,8 @@ play.addEventListener('click', function (e) {
         }
 
     })
+    }
+
 })
 
 

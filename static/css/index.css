@@ -35,6 +35,22 @@ a h3{
     display: grid;
     place-items: center;
 }
+.refresh-games{
+    margin-top: 2%;
+    float: right;
+    width: 140px;
+    height: 30px;
+    background-color: blue;
+    border-radius: 100px;
+    margin-right: 2%;
+    display: grid;
+    place-items: center;
+}
+.refresh-games h3{
+    margin: 0;
+
+    color: #e0e0e0;
+}
 .username{
     margin-left: 3vw;
     display: inline-block;

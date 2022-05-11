@@ -1,7 +1,6 @@
 let area1 = Array.from(document.getElementById('battlefield1').children)
 let area2 = Array.from(document.getElementById('battlefield2').children)
 let area1_draw = document.getElementById('battlefield1')
-localStorage.setItem('indexReload', 'true');
 
 function getCookie(name) {
     var cookieValue = null;

@@ -24,4 +24,6 @@ urlpatterns = [
     path('game_not_found/', views.game_not_found, name='game_not_found'),
     path('surrender/', views.surrender, name='surrender'),
 
+    path('check_user_game/', views.check_user_game, name='check_user_game')
+
 ]
