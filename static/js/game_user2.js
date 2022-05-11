@@ -1,7 +1,7 @@
 let area1 = Array.from(document.getElementById('battlefield1').children)
 let area2 = Array.from(document.getElementById('battlefield2').children)
 let area1_draw = document.getElementById('battlefield1')
-
+localStorage.setItem('indexReload', 'true');
 
 function getCookie(name) {
     var cookieValue = null;
@@ -143,7 +143,7 @@ setInterval(function () {
                     return parseInt(item);
                 })
                 if(battlefield_user2.toString() !== battlefield2_check.toString()) {
-
+                    localStorage.setItem('move2', 'true')
 
                     battlefield_user2 = battlefield2_check
                     if(battlefield_user2.indexOf(1) ===  -1) window.location.href = '../lose/'
@@ -152,6 +152,7 @@ setInterval(function () {
                         if(battlefield_user2[i] === 1)  $(area2)[i].style.backgroundColor = '#000';
                         else if(battlefield_user2[i] === 2) $(area2)[i].style.backgroundColor = 'rgb(255,38,38)';
                         else if(battlefield_user2[i] === 3) $(area2)[i].style.backgroundColor = 'rgb(160, 160, 160)';
+
                     }
                     localStorage.setItem('move2', 'true')
                 }

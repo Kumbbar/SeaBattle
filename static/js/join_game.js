@@ -5,7 +5,7 @@ var reset = document.querySelector('.reset')
 var ships = 14;
 var play = document.querySelector('.play')
 
-if(localStorage.getItem('move2') === null)  localStorage.setItem('move2', 'false')
+if(localStorage.getItem('move2') === null)  localStorage.setItem('move2', 'false');
 
 
 

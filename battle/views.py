@@ -156,6 +156,7 @@ def game_not_found(request):
     return render(request, 'battle/game_not_found.html')
 
 
+@game_not_found_redirect
 def surrender(request):
     """Delete the game"""
     gamer = get_gamer(request)
@@ -177,3 +178,6 @@ def surrender(request):
     game.delete()
     gamer.save()
     return redirect('battle:index')
+
+def  check_user_game(request):
+

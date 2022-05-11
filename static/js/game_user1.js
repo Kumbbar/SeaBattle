@@ -2,7 +2,7 @@ let area1 = Array.from(document.getElementById('battlefield1').children)
 let area2 = Array.from(document.getElementById('battlefield2').children)
 let area2_draw = document.getElementById('battlefield2')
 let game_start = false
-
+localStorage.setItem('indexReload', 'true');
 function reload() {
   if(localStorage.getItem('reloadPage') === 'true') window.location.reload()
 }

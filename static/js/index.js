@@ -1,3 +1,7 @@
+if(localStorage.getItem('indexReload') === 'true'){
+    localStorage.setItem('indexReload', 'false');
+    window.location.href = ''
+}
 localStorage.clear()
 
 /*
