@@ -59,11 +59,11 @@ def game_user1(request):
     game = Game.objects.get(player1=gamer)
     if request.method == 'POST':
         battlefield = request.POST.get('battlefield')
-        if battlefield is None:
-            return redirect('battle:create_game')
         if game.battlefield_player1 is None:
             game.battlefield_player1 = battlefield
         game.save()
+    if game.battlefield_player1 is None:
+        return redirect('battle:create_game')
     return render(request, 'battle/game_user1.html', {'game': game})
 
 
