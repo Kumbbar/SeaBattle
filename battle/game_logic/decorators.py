@@ -23,7 +23,7 @@ def not_in_game(func):
 
 
 def game_not_found_redirect(func):
-    def wrapper(request):
+    def wrapper(request, *args, **kwargs):
         global game1_not_found, game2_not_found
         game1_not_found, game2_not_found = False, False
         gamer = get_gamer(request)
@@ -38,7 +38,5 @@ def game_not_found_redirect(func):
 
         if game1_not_found and game2_not_found:
             return redirect('battle:game_not_found')
-
-        return func(request)
+        return func(request, *args, **kwargs)
     return wrapper
-

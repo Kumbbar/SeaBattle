@@ -45,7 +45,10 @@ def join_game(request, room_name):
             if game.battlefield_player2 is not None:
                 return redirect('battle:game_user2')
         except battle.models.Game.DoesNotExist:
-            game = Game.objects.get(room_name=room_name)
+            try:
+                game = Game.objects.get(room_name=room_name)
+            except battle.models.Game.DoesNotExist:
+                return redirect('battle:game_not_found')
             game.player2 = gamer
             game.save()
         return render(request, "battle/join_game.html")
@@ -78,6 +81,8 @@ def game_user2(request):
         if game.battlefield_player2 is None:
             game.battlefield_player2 = battlefield
         game.save()
+    if game.battlefield_player2 is None:
+        return redirect('battle:join_game', game.room_name)
     return render(request, 'battle/game_user2.html', {'game': game})
 
 
@@ -126,6 +131,7 @@ def interact_battlefield2(request):
         return HttpResponse("Success")
 
 
+@game_not_found_redirect
 def player_win(request):
     """add win to user and redirect to win page"""
     gamer = get_gamer(request)
@@ -181,7 +187,6 @@ def surrender(request):
         game = Game.objects.get(player1=gamer)
         player1 = True
     except battle.models.Game.DoesNotExist:
-        player1 = True
         game = Game.objects.get(player2=gamer)
         player1 = False
 
@@ -189,8 +194,10 @@ def surrender(request):
     if player1:
         if game.player2 is not None:
             gamer.games += 1
+            game.player2.wins += 1
     else:
         gamer.games += 1
+        game.player1.wins += 1
     game.delete()
     gamer.save()
     return redirect('battle:index')

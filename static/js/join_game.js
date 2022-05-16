@@ -51,12 +51,13 @@ reset.addEventListener('click', function (e) {
 })
 
 play.addEventListener('click', function (e) {
+    if(ships === 0){
     $.ajax({
         beforeSend: function (xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            },
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        },
         type: "POST",
         url: '../game_user2/',
         data: {
@@ -70,6 +71,7 @@ play.addEventListener('click', function (e) {
         }
 
     })
+}
 })
 
 area.addEventListener("click", function (e) {
