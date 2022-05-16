@@ -64,4 +64,20 @@ def get_gamer(request):
     return gamer
 
 
+def check_win_lose(request, gamer):
+    try:
+        game = Game.objects.get(player1=gamer)
+        gamer1 = True
+    except battle.models.Game.DoesNotExist:
+        try:
+            game = Game.objects.get(player2=gamer)
+            gamer1 = False
+        except battle.models.Game.DoesNotExist:
+            return redirect('battle:index')
+    if '1' in game.battlefield_player1 or '1' in game.battlefield_player2:
+        if gamer1:
+            return redirect('battle:game_user1')
+        else:
+            return redirect('battle:game_user2')
+
 

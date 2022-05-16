@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer, delete_game
+from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer, delete_game, check_win_lose
 from .game_logic.decorators import not_in_game, game_not_found_redirect
 import battle
 from .models import Gamer, Game
@@ -41,16 +41,13 @@ def join_game(request, room_name):
     gamer = prepare_game(request)
     if request.method == 'GET':
         try:
-            game = Game.objects.get(player2=gamer)
+            game = Game.objects.get(room_name=room_name)
             if game.battlefield_player2 is not None:
-                return redirect('battle:game_user2')
+                return redirect('battle:index')
         except battle.models.Game.DoesNotExist:
-            try:
-                game = Game.objects.get(room_name=room_name)
-            except battle.models.Game.DoesNotExist:
-                return redirect('battle:game_not_found')
-            game.player2 = gamer
-            game.save()
+            redirect('battle:game_not_found')
+        game.player2 = gamer
+        game.save()
         return render(request, "battle/join_game.html")
 
 
@@ -135,6 +132,17 @@ def interact_battlefield2(request):
 def player_win(request):
     """add win to user and redirect to win page"""
     gamer = get_gamer(request)
+    check_win_lose(request, gamer)
+    gamer.games += 1
+    gamer.wins += 1
+    gamer.save()
+    return render(request, 'battle/win_page.html', {'gamer': gamer})
+
+
+@game_not_found_redirect
+def player_lose(request):
+    """delete game and redirect to lose page"""
+    gamer = get_gamer(request)
     try:
         game = Game.objects.get(player1=gamer)
         gamer1 = True
@@ -147,22 +155,11 @@ def player_win(request):
     if '1' in game.battlefield_player1 or '1' in game.battlefield_player2:
         if gamer1:
             return redirect('battle:game_user1')
-        else:
-            return redirect('battle:game_user2')
-    gamer.games += 1
-    gamer.wins += 1
-    gamer.save()
-    return render(request, 'battle/win_page.html', {'gamer': gamer})
 
 
-@game_not_found_redirect
-def player_lose(request):
-    """delete game and redirect to lose page"""
-    gamer = get_gamer(request)
     delete_game(request, gamer)
     gamer.games += 1
     gamer.save()
-    return render(request, 'battle/lose_page.html', {'gamer': gamer})
 
 
 def back_player1(request):
