@@ -64,7 +64,7 @@ def get_gamer(request):
     return gamer
 
 
-def check_win_lose(request, gamer):
+def check_win_or_lose(request, gamer):
     """Check access win/lose pages and return 1 for first and 2 for second player if game not ended"""
     try:
         game = Game.objects.get(player1=gamer)

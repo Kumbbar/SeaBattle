@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer, delete_game, check_win_lose
+from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer, delete_game, \
+    check_win_or_lose
 from .game_logic.decorators import not_in_game, game_not_found_redirect
 import battle
 from .models import Gamer, Game
@@ -132,7 +133,7 @@ def interact_battlefield2(request):
 def player_win(request):
     """add win to user and redirect to win page"""
     gamer = get_gamer(request)
-    player_redirect = check_win_lose(request, gamer)
+    player_redirect = check_win_or_lose(request, gamer)
     if player_redirect == 1:
         return redirect('battle:game_user1')
     if player_redirect == 2:
@@ -147,7 +148,7 @@ def player_win(request):
 def player_lose(request):
     """delete game and redirect to lose page"""
     gamer = get_gamer(request)
-    player_redirect = check_win_lose(request, gamer)
+    player_redirect = check_win_or_lose(request, gamer)
     if player_redirect == 1:
         return redirect('battle:game_user1')
     if player_redirect == 2:
