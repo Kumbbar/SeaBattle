@@ -75,7 +75,7 @@ def check_win_lose(request, gamer):
             gamer1 = False
         except battle.models.Game.DoesNotExist:
             return redirect('battle:index')
-    if '1' not in game.battlefield_player1 or '1' not  in game.battlefield_player2:
+    if '1' not in game.battlefield_player1 or '1' not in game.battlefield_player2:
         return 0
     if gamer1:
         return 1
