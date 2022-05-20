@@ -120,8 +120,7 @@ area2_draw.addEventListener("click", function (e) {
             e.target.style.backgroundColor = 'rgb(160, 160, 160)';
             battlefield_user2[$(e.target).index()] = 3;
         }
-        if(battlefield_user2.indexOf(1) ===  -1) window.location.href = '../win/';
-        localStorage.setItem('move1', 'false')
+
         $.ajax({
             beforeSend: function (xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -135,6 +134,12 @@ area2_draw.addEventListener("click", function (e) {
                 'battlefield': battlefield_user2.join(" ")
             },
             cache: false,
+
+            success: function (data) {
+            if(battlefield_user2.indexOf(1) ===  -1) window.location.href = '../win/';
+            localStorage.setItem('move1', 'false')
+
+            }
 
 
 

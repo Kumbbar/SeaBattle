@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer, delete_game, check_win_or_lose
+from .game_logic.logic import back1, back2, start_battle_user, prepare_game, get_gamer, delete_game, check_win_lose
 from .game_logic.decorators import not_in_game, game_not_found_redirect
 import battle
 from .models import Gamer, Game
@@ -132,12 +132,10 @@ def interact_battlefield2(request):
 def player_win(request):
     """add win to user and redirect to win page"""
     gamer = get_gamer(request)
-
-    # if game not ended return 1 for first user, 2 for second
-    redirect_to_battlefield = check_win_or_lose(request, gamer)
-    if redirect_to_battlefield == 1:
+    player_redirect = check_win_lose(request, gamer)
+    if player_redirect == 1:
         return redirect('battle:game_user1')
-    elif redirect_to_battlefield == 2:
+    if player_redirect == 2:
         return redirect('battle:game_user2')
     gamer.games += 1
     gamer.wins += 1
@@ -149,16 +147,16 @@ def player_win(request):
 def player_lose(request):
     """delete game and redirect to lose page"""
     gamer = get_gamer(request)
-
-    # if game not ended return 1 for first user, 2 for second
-    redirect_to_battlefield = check_win_or_lose(request, gamer)
-    if redirect_to_battlefield == 1:
+    player_redirect = check_win_lose(request, gamer)
+    if player_redirect == 1:
         return redirect('battle:game_user1')
-    elif redirect_to_battlefield == 2:
+    if player_redirect == 2:
         return redirect('battle:game_user2')
     delete_game(request, gamer)
     gamer.games += 1
     gamer.save()
+    return render(request, 'battle/lose_page.html', {'gamer': gamer})
+
 
 
 def back_player1(request):

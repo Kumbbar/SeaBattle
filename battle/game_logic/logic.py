@@ -64,8 +64,8 @@ def get_gamer(request):
     return gamer
 
 
-def check_win_or_lose(request, gamer):
-    """Return 1 if is player 1, 2 if is player 2 and if """
+def check_win_lose(request, gamer):
+    """Access win/lose pages and return 1 for first and 2 for second player if game not ended"""
     try:
         game = Game.objects.get(player1=gamer)
         gamer1 = True
@@ -75,10 +75,11 @@ def check_win_or_lose(request, gamer):
             gamer1 = False
         except battle.models.Game.DoesNotExist:
             return redirect('battle:index')
-    if '1' not in game.battlefield_player1 or '1' not in game.battlefield_player2:
+    if '1' not in game.battlefield_player1 or '1' not  in game.battlefield_player2:
         return 0
     if gamer1:
         return 1
     else:
         return 2
+
 
