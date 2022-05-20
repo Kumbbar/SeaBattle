@@ -132,7 +132,11 @@ def interact_battlefield2(request):
 def player_win(request):
     """add win to user and redirect to win page"""
     gamer = get_gamer(request)
-    check_win_lose(request, gamer)
+    player_redirect = check_win_lose(request, gamer)
+    if player_redirect == 1:
+        return redirect('battle:game_user1')
+    if player_redirect == 2:
+        return redirect('battle:game_user2')
     gamer.games += 1
     gamer.wins += 1
     gamer.save()
@@ -143,23 +147,16 @@ def player_win(request):
 def player_lose(request):
     """delete game and redirect to lose page"""
     gamer = get_gamer(request)
-    try:
-        game = Game.objects.get(player1=gamer)
-        gamer1 = True
-    except battle.models.Game.DoesNotExist:
-        try:
-            game = Game.objects.get(player2=gamer)
-            gamer1 = False
-        except battle.models.Game.DoesNotExist:
-            return redirect('battle:index')
-    if '1' in game.battlefield_player1 or '1' in game.battlefield_player2:
-        if gamer1:
-            return redirect('battle:game_user1')
-
-
+    player_redirect = check_win_lose(request, gamer)
+    if player_redirect == 1:
+        return redirect('battle:game_user1')
+    if player_redirect == 2:
+        return redirect('battle:game_user2')
     delete_game(request, gamer)
     gamer.games += 1
     gamer.save()
+    return render(request, 'battle/lose_page.html', {'gamer': gamer})
+
 
 
 def back_player1(request):
